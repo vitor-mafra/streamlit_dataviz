@@ -6,6 +6,8 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import plotly.express as px
 import time
+import json
+from urllib.request import urlopen
 
 st.set_page_config(page_title="TP - Visualização de Dados", page_icon="🥇", layout="centered", initial_sidebar_state="auto", menu_items=None)
 
@@ -13,7 +15,7 @@ loading_bar = st.progress(0)
 warning = st.warning("Por favor, espere os dados carregarem corretamente")
 
 st.title("Histórias das Olimpíadas")
-st.subheader("Uma análise quantitativa dos Jogos Olímpicos de Inverno e Verão")
+st.subheader("Uma análise quantitativa dos Jogos Olímpicos de Verão e Inverno")
 
 st.text("")
 st.text('''
@@ -52,11 +54,70 @@ ft_Competicao['Medal'] = ft_Competicao['Medal'].fillna('-')
 
 loading_bar.progress(28)
 
+with urlopen("https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json") as response:
+    Countries = json.load(response) # Javascrip object notation 
+loading_bar.progress(30)
+
 st.header("Uma visão temporal das Olimpíadas")
 st.subheader("Jogos Olímpicos de Verão")
 
+#Quantidade de Medalhas por País
 
-loading_bar.progress(30)
+dfOlVerao = ft_Competicao.loc[ft_Competicao['Season'] == 'Summer']
+
+OuroPaisVeraoAno = (
+    dfOlVerao.loc[dfOlVerao['Medal'] == 'Gold'][['NOC','Year','Medal']]
+    .groupby(['NOC','Year','Medal'])['Medal']
+    .count()
+    .reset_index(name='QtdOuro')
+    .sort_values(['QtdOuro'], ascending=False) 
+    
+)
+
+PrataPaisVeraoAno = (
+    dfOlVerao.loc[dfOlVerao['Medal'] == 'Silver'][['NOC','Year','Medal']]
+    .groupby(['NOC','Year','Medal'])['Medal']
+    .count()
+    .reset_index(name='QtdPrata')
+    .sort_values(['QtdPrata'], ascending=False) 
+    
+)
+
+BronzePaisVeraoAno = (
+    dfOlVerao.loc[dfOlVerao['Medal'] == 'Bronze'][['NOC','Year','Medal']]
+    .groupby(['NOC','Year','Medal'])['Medal']
+    .count()
+    .reset_index(name='QtdBronze')
+    .sort_values(['QtdBronze'], ascending=False) 
+    
+)
+
+TotalPaisAnoVerao = OuroPaisVeraoAno.merge(PrataPaisVeraoAno,how = 'inner', on = ['NOC','Year'])
+TotalPaisAnoVerao = TotalPaisAnoVerao.merge(BronzePaisVeraoAno,how = 'inner', on = ['NOC','Year'])
+TotalPaisAnoVerao['Total'] = TotalPaisAnoVerao['QtdOuro'] + TotalPaisAnoVerao['QtdPrata'] + TotalPaisAnoVerao['QtdBronze']
+
+df = TotalPaisAnoVerao
+df = df.sort_values(by=["Year"])
+
+fig1 = px.choropleth_mapbox(
+    df,
+    locations = "NOC",
+    geojson = Countries, #shape information
+    color = "Total",
+    color_continuous_scale="Viridis",
+    mapbox_style="carto-positron",
+    hover_name = "NOC",
+    hover_data = ["Total"],
+    center={"lat" : 0, "lon" : 0},
+    zoom=0,
+    opacity=0.8,
+    animation_frame = "Year", #creating the application based on the year
+    title = "Quantidade de medalhas por país ao longo da história das Olimpíadas de Verão", 
+
+)
+st.plotly_chart(fig1)
+
+loading_bar.progress(35)
 
 st.subheader("Jogos Olímpicos de Inverno")
 loading_bar.progress(40)
@@ -120,9 +181,9 @@ sns.despine(left=True, bottom=True)
 
 st.header("Atletas que marcaram eras")
 st.subheader("Jogos Olímpicos de Verão")
-st.write("Titulo grafico")
+st.write("Os maiores medalhistas nas Olimpíadas de Verão")
 st.pyplot(plt.gcf())
-st.caption("legenda do grafico")
+st.caption("Fonte: dados retirados em https://www.sports-reference.com/")
 
 loading_bar.progress(45)
 
@@ -148,7 +209,7 @@ sns.despine(left=True, bottom=True)
 
 st.write("Titulo grafico")
 st.pyplot(plt.gcf())
-st.caption("legenda do grafico")
+st.caption("Fonte: dados retirados em https://www.sports-reference.com/")
 
 #Quais os atletas que marcaram eras (Guilherme) - Inverno
 dfOlInverno = ft_Competicao.loc[ft_Competicao['Season'] == 'Winter']
@@ -212,7 +273,7 @@ sns.despine(left=True, bottom=True)
 st.subheader("Jogos Olímpicos de Inverno")
 st.write("Titulo grafico")
 st.pyplot(plt.gcf())
-st.caption("legenda do grafico")
+st.caption("Fonte: dados retirados em https://www.sports-reference.com/")
 
 loading_bar.progress(50)
 
@@ -238,7 +299,7 @@ sns.despine(left=True, bottom=True)
 
 st.write("Titulo grafico")
 st.pyplot(plt.gcf())
-st.caption("legenda do grafico")
+st.caption("Fonte: dados retirados em https://www.sports-reference.com/")
 
 # Bubble Chart quantidade de medalhas x Renda per capita - (Guilherme) - Verão
 dfOlVerao = ft_Competicao.loc[ft_Competicao['Season'] == 'Summer']
@@ -360,11 +421,11 @@ fig = px.scatter(
 
 fig.layout.updatemenus[0].buttons[0].args[1]['frame']['duration'] = 1000
 
-st.header("Quantidade de medalhas x Renda per capita")
+st.header("Explorando a quantidade de medalhas por renda per capita")
 st.subheader("Jogos Olímpicos de Verão")
-st.write("Titulo grafico")
+st.write("Quantidade de medalhas x Renda per capita - Jogos Olímpicos de Verão")
 st.plotly_chart(fig)
-st.caption("legenda do grafico")
+st.caption("Fonte: dados retirados em https://www.sports-reference.com/")
 
 
 loading_bar.progress(60)
@@ -491,9 +552,9 @@ fig = px.scatter(
 
 fig.layout.updatemenus[0].buttons[0].args[1]['frame']['duration'] = 1000
 st.subheader("Jogos Olímpicos de Inverno")
-st.write("Titulo grafico")
+st.write("Quantidade de medalhas x Renda per capita - Jogos Olímpicos de Iverno")
 st.plotly_chart(fig)
-st.caption("legenda do grafico")
+st.caption("Fonte: dados retirados em https://www.sports-reference.com/")
 
 ##Obs: Acrescentar cor aos países faz alguns sumir
 
@@ -608,11 +669,11 @@ fig.set(xlabel=None,ylabel = None)
 
 sns.despine(left=True, bottom=True)
 
-st.header("Top 10 países ganhadores de medalha")
+st.header("Os maiores medalhistas de todos os tempos")
 st.subheader("Jogos Olímpicos de Verão")
-st.write("Titulo grafico")
+st.write("Os 10 países que mais ganharam medalhas nos Jogos Olímpicos de Verão")
 st.pyplot(plt.gcf())
-st.caption("legenda do grafico")
+st.caption("Fonte: dados retirados em https://www.sports-reference.com/")
 
 loading_bar.progress(70)
 
@@ -728,9 +789,9 @@ fig.set(xlabel=None,ylabel = None)
 sns.despine(left=True, bottom=True)
 
 st.subheader("Jogos Olímpicos de Inverno")
-st.write("Titulo grafico")
+st.write("Os 10 países que mais ganharam medalhas nos Jogos Olímpicos de Inverno")
 st.pyplot(plt.gcf())
-st.caption("legenda do grafico")
+st.caption("Fonte: dados retirados em https://www.sports-reference.com/")
 
 loading_bar.progress(90)
 loading_bar.progress(100)
