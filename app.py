@@ -114,7 +114,7 @@ fig1 = px.choropleth_mapbox(
     hover_name = "NOC",
     hover_data = ["Total"],
     center={"lat" : 0, "lon" : 0},
-    zoom=-0.2,
+    zoom=-0.3,
     opacity=0.8,
     animation_frame = "Year", #creating the application based on the year
     title = "Quantidade de medalhas por país ao longo da história das Olimpíadas de Verão", 
@@ -123,12 +123,75 @@ fig1 = px.choropleth_mapbox(
 
 fig1.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
 fig1.update_geos(fitbounds = "locations", visible = False)
+st.write("Quantidade de medalhas por país ao longo da história das Olimpíadas de Verão")
 st.plotly_chart(fig1)
 
 loading_bar.progress(35)
 
 st.subheader("Jogos Olímpicos de Inverno")
 loading_bar.progress(40)
+
+#Quantidade de Medalhas por País
+
+dfOlVerao = ft_Competicao.loc[ft_Competicao['Season'] == 'Winter']
+
+
+OuroPaisVeraoAno = (
+    dfOlVerao.loc[dfOlVerao['Medal'] == 'Gold'][['NOC','Year','Medal']]
+    .groupby(['NOC','Year','Medal'])['Medal']
+    .count()
+    .reset_index(name='QtdOuro')
+    .sort_values(['QtdOuro'], ascending=False) 
+    
+)
+
+PrataPaisVeraoAno = (
+    dfOlVerao.loc[dfOlVerao['Medal'] == 'Silver'][['NOC','Year','Medal']]
+    .groupby(['NOC','Year','Medal'])['Medal']
+    .count()
+    .reset_index(name='QtdPrata')
+    .sort_values(['QtdPrata'], ascending=False) 
+    
+)
+
+BronzePaisVeraoAno = (
+    dfOlVerao.loc[dfOlVerao['Medal'] == 'Bronze'][['NOC','Year','Medal']]
+    .groupby(['NOC','Year','Medal'])['Medal']
+    .count()
+    .reset_index(name='QtdBronze')
+    .sort_values(['QtdBronze'], ascending=False) 
+    
+)
+
+TotalPaisAnoVerao = OuroPaisVeraoAno.merge(PrataPaisVeraoAno,how = 'inner', on = ['NOC','Year'])
+TotalPaisAnoVerao = TotalPaisAnoVerao.merge(BronzePaisVeraoAno,how = 'inner', on = ['NOC','Year'])
+TotalPaisAnoVerao['Total'] = TotalPaisAnoVerao['QtdOuro'] + TotalPaisAnoVerao['QtdPrata'] + TotalPaisAnoVerao['QtdBronze']
+
+df = TotalPaisAnoVerao
+df = df.sort_values(by=["Year"])
+
+fig2 = px.choropleth_mapbox(
+    df,
+    locations = "NOC",
+    geojson = Countries, #shape information
+    color = "Total",
+    color_continuous_scale="Viridis",
+    mapbox_style="carto-positron",
+    hover_name = "NOC",
+    hover_data = ["Total"],
+    center={"lat" : 0, "lon" : 0},
+    zoom=-.3,
+    opacity=0.8,
+    animation_frame = "Year", #creating the application based on the year
+    title = "Quantidade de medalhas por país ao longo da história das Olimpíadas de Inverno", 
+
+)
+
+fig2.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+fig2.update_geos(fitbounds = "locations", visible = False)
+st.write("Quantidade de medalhas por país ao longo da história das Olimpíadas de Inverno")
+st.plotly_chart(fig2)
+
 
 # Quais os atletas que marcaram eras (Guilherme) - Verão
 dfOlVerao = ft_Competicao.loc[ft_Competicao['Season'] == 'Summer']
