@@ -92,7 +92,11 @@ ax.set(xlim=(0, 35), ylabel="",
        xlabel=None)
 sns.despine(left=True, bottom=True)
 
+st.header("Atletas que marcaram eras")
+st.subheader("Jogos Olímpicos de Verão")
+st.write("Titulo grafico")
 st.pyplot(plt.gcf())
+st.caption("legenda do grafico")
 
 ################################# Visão de Período
 sns.set_theme(style="darkgrid")
@@ -114,7 +118,9 @@ ax.set(xlim=(1920, 2020), ylabel="",
        xlabel=None)
 sns.despine(left=True, bottom=True)
 
+st.write("Titulo grafico")
 st.pyplot(plt.gcf())
+st.caption("legenda do grafico")
 
 #Quais os atletas que marcaram eras (Guilherme) - Inverno
 dfOlInverno = ft_Competicao.loc[ft_Competicao['Season'] == 'Winter']
@@ -175,7 +181,10 @@ ax.set(xlim=(0, 35), ylabel="",
        xlabel=None)
 sns.despine(left=True, bottom=True)
 
+st.subheader("Jogos Olímpicos de Inverno")
+st.write("Titulo grafico")
 st.pyplot(plt.gcf())
+st.caption("legenda do grafico")
 
 ################################# Visão de Período
 sns.set_theme(style="darkgrid")
@@ -197,7 +206,9 @@ ax.set(xlim=(1920, 2020), ylabel="",
        xlabel=None)
 sns.despine(left=True, bottom=True)
 
+st.write("Titulo grafico")
 st.pyplot(plt.gcf())
+st.caption("legenda do grafico")
 
 # Bubble Chart quantidade de medalhas x Renda per capita - (Guilherme) - Verão
 dfOlVerao = ft_Competicao.loc[ft_Competicao['Season'] == 'Summer']
@@ -318,7 +329,12 @@ fig = px.scatter(
  )
 
 fig.layout.updatemenus[0].buttons[0].args[1]['frame']['duration'] = 1000
+
+st.header("Quantidade de medalhas x Renda per capita")
+st.subheader("Jogos Olímpicos de Verão")
+st.write("Titulo grafico")
 st.plotly_chart(fig)
+st.caption("legenda do grafico")
 
 ##Obs: Acrescentar cor aos países faz alguns sumir
 
@@ -441,7 +457,10 @@ fig = px.scatter(
  )
 
 fig.layout.updatemenus[0].buttons[0].args[1]['frame']['duration'] = 1000
+st.subheader("Jogos Olímpicos de Inverno")
+st.write("Titulo grafico")
 st.plotly_chart(fig)
+st.caption("legenda do grafico")
 
 ##Obs: Acrescentar cor aos países faz alguns sumir
 
@@ -555,7 +574,12 @@ fig = sns.barplot(data = TotalPaisVerao, x='NOC' , y='Total')
 fig.set(xlabel=None,ylabel = None)
 
 sns.despine(left=True, bottom=True)
+
+st.header("Top 10 países ganhadores de medalha")
+st.subheader("Jogos Olímpicos de Verão")
+st.write("Titulo grafico")
 st.pyplot(plt.gcf())
+st.caption("legenda do grafico")
 
 # Top 10 de países ganhadores de medalha total - (Guilherme) - Inverno
 #pd.set_option('display.max_rows', 300)
@@ -667,4 +691,8 @@ fig = sns.barplot(data = TotalPaisInverno, x='NOC' , y='Total')
 fig.set(xlabel=None,ylabel = None)
 
 sns.despine(left=True, bottom=True)
+
+st.subheader("Jogos Olímpicos de Inverno")
+st.write("Titulo grafico")
 st.pyplot(plt.gcf())
+st.caption("legenda do grafico")
