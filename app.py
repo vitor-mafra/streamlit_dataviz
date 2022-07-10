@@ -5,8 +5,13 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 import plotly.express as px
+import time
 
 st.set_page_config(page_title="TP - Visualização de Dados", page_icon="🥇", layout="centered", initial_sidebar_state="auto", menu_items=None)
+
+loading_bar = st.progress(0)
+warning = st.warning("Por favor, espere os dados carregarem corretamente")
+
 st.title("Histórias das Olimpíadas")
 st.subheader("Uma análise quantitativa dos Jogos Olímpicos de Inverno e Verão")
 
@@ -22,19 +27,20 @@ Vitor Mafra - 2018046831
 st.write("Este trabalho visa analisar dados dos atletas de todos os Jogos Olímpicos de Inverno e Verão em busca de compreender e comunicar melhor tantos anos de história, geopolítica e esporte em alto nível. Para isso, vamos visualizar temporal e geograficamente as distribuições de medalhas ao longo das Olimpíadas, buscar atletas de destaque, investigar o perfil de atletas experientes, analisar a correlação entre o PIB dos países com a quantidade de medalhas conquistadas e tentar entender quais são os grandes países nos quadros de medalhas dos Jogos Olímpicos.")
 st.write("A ideia é tentar compreender e comunicar, portanto, o grande contexto por trás de um evento que frequentemente entretém, diverte e inspira todo o mundo. A relevância do trabalho se mostra justamente nesse interesse pontual de pessoas de diferentes perfis e culturas ao longo dos mais diversos países sobre um único evento.")
 
-st.header("Uma visão temporal das Olimpíadas")
-st.subheader("Jogos Olímpicos de Verão")
-
-st.subheader("Jogos Olímpicos de Inverno")
-
+loading_bar.progress(5)
 
 # Leitura dos Dados
 ft_Competicao = pd.read_csv("https://raw.githubusercontent.com/GuiMendeees/Dados/main/TP%20Data%20Viz/athlete_events.csv")
+loading_bar.progress(7)
 dim_paises = pd.read_csv('https://raw.githubusercontent.com/GuiMendeees/Dados/main/TP%20Data%20Viz/noc_regions.csv')
+
+loading_bar.progress(10)
 
 dim_indicadores = pd.read_csv("https://raw.githubusercontent.com/GuiMendeees/Dados/main/TP%20Data%20Viz/WordSocio.csv")
 dim_indicadores.drop(dim_indicadores.tail(5).index,inplace=True)
 dim_indicadores['Time'] = pd.to_numeric(dim_indicadores['Time'])
+
+loading_bar.progress(20)
 
 # Tratamento da Base
 coletivos = ['Basketball','Football','Tug-Of-War','Ice Hockey','Sailing','Handball','Water Polo','Hockey','Bobsleigh','Softball','Synchronized Swimming','Volleyball'
@@ -43,6 +49,17 @@ coletivos = ['Basketball','Football','Tug-Of-War','Ice Hockey','Sailing','Handba
 
 ft_Competicao['Esporte Coletivo'] = np.where(ft_Competicao['Sport'].isin(coletivos), 1, 0)
 ft_Competicao['Medal'] = ft_Competicao['Medal'].fillna('-')
+
+loading_bar.progress(28)
+
+st.header("Uma visão temporal das Olimpíadas")
+st.subheader("Jogos Olímpicos de Verão")
+
+
+loading_bar.progress(30)
+
+st.subheader("Jogos Olímpicos de Inverno")
+loading_bar.progress(40)
 
 # Quais os atletas que marcaram eras (Guilherme) - Verão
 dfOlVerao = ft_Competicao.loc[ft_Competicao['Season'] == 'Summer']
@@ -106,6 +123,8 @@ st.subheader("Jogos Olímpicos de Verão")
 st.write("Titulo grafico")
 st.pyplot(plt.gcf())
 st.caption("legenda do grafico")
+
+loading_bar.progress(45)
 
 ################################# Visão de Período
 sns.set_theme(style="darkgrid")
@@ -194,6 +213,8 @@ st.subheader("Jogos Olímpicos de Inverno")
 st.write("Titulo grafico")
 st.pyplot(plt.gcf())
 st.caption("legenda do grafico")
+
+loading_bar.progress(50)
 
 ################################# Visão de Período
 sns.set_theme(style="darkgrid")
@@ -344,6 +365,9 @@ st.subheader("Jogos Olímpicos de Verão")
 st.write("Titulo grafico")
 st.plotly_chart(fig)
 st.caption("legenda do grafico")
+
+
+loading_bar.progress(60)
 
 ##Obs: Acrescentar cor aos países faz alguns sumir
 
@@ -590,6 +614,8 @@ st.write("Titulo grafico")
 st.pyplot(plt.gcf())
 st.caption("legenda do grafico")
 
+loading_bar.progress(70)
+
 # Top 10 de países ganhadores de medalha total - (Guilherme) - Inverno
 #pd.set_option('display.max_rows', 300)
 
@@ -705,3 +731,11 @@ st.subheader("Jogos Olímpicos de Inverno")
 st.write("Titulo grafico")
 st.pyplot(plt.gcf())
 st.caption("legenda do grafico")
+
+loading_bar.progress(90)
+loading_bar.progress(100)
+warning.success("Tudo certo!")
+
+time.sleep(2)
+warning.empty()
+loading_bar.empty()
