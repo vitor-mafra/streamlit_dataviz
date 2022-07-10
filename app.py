@@ -7,17 +7,26 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 
 st.set_page_config(page_title="TP - Visualização de Dados", page_icon="🥇", layout="centered", initial_sidebar_state="auto", menu_items=None)
-st.title("A história das Olimpíadas")
+st.title("Histórias das Olimpíadas")
 st.subheader("Uma análise quantitativa dos Jogos Olímpicos de Inverno e Verão")
 
 st.text("")
 st.text('''
-Daniel Silva -
-Eduardo Fiuza -
-Guilherme Mendes -
-Rúbia Wardil -
+Daniel Silva - 2018046670
+Eduardo Fiuza - 2018046580
+Guilherme Mendes - 2018046939
+Rúbia Wardil - 2016077209
 Vitor Mafra - 2018046831
 ''')
+
+st.write("Este trabalho visa analisar dados dos atletas de todos os Jogos Olímpicos de Inverno e Verão em busca de compreender e comunicar melhor tantos anos de história, geopolítica e esporte em alto nível. Para isso, vamos visualizar temporal e geograficamente as distribuições de medalhas ao longo das Olimpíadas, buscar atletas de destaque, investigar o perfil de atletas experientes, analisar a correlação entre o PIB dos países com a quantidade de medalhas conquistadas e tentar entender quais são os grandes países nos quadros de medalhas dos Jogos Olímpicos.")
+st.write("A ideia é tentar compreender e comunicar, portanto, o grande contexto por trás de um evento que frequentemente entretém, diverte e inspira todo o mundo. A relevância do trabalho se mostra justamente nesse interesse pontual de pessoas de diferentes perfis e culturas ao longo dos mais diversos países sobre um único evento.")
+
+st.header("Uma visão temporal das Olimpíadas")
+st.subheader("Jogos Olímpicos de Verão")
+
+st.subheader("Jogos Olímpicos de Inverno")
+
 
 # Leitura dos Dados
 ft_Competicao = pd.read_csv("https://raw.githubusercontent.com/GuiMendeees/Dados/main/TP%20Data%20Viz/athlete_events.csv")
