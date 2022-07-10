@@ -193,6 +193,10 @@ st.write("Quantidade de medalhas por país ao longo da história das Olimpíadas
 st.plotly_chart(fig2)
 
 
+st.header("Perfil dos atletas medalhistas")
+st.image("/home/vitor-mafra/Desktop/ufmg/2022_01/dataviz/streamlit_dataviz/Visualização de Dados - Apresentação Final.png")
+
+
 # Quais os atletas que marcaram eras (Guilherme) - Verão
 dfOlVerao = ft_Competicao.loc[ft_Competicao['Season'] == 'Summer']
 dfEra = (
@@ -262,7 +266,7 @@ loading_bar.progress(45)
 sns.set_theme(style="darkgrid")
 
 # Initialize the matplotlib figure
-f, ax = plt.subplots(figsize=(5, 8))
+f, ax = plt.subplots(figsize=(15, 8))
 
 dfEraYear = dfOlVerao.drop_duplicates(['Name','Year','Medal'])[['Name','Year','Medal']]
 dfEraYear = dfEraYear.loc[dfEraYear['Medal'] == 'Gold']
@@ -275,10 +279,10 @@ dfEraYear.sort_values('Name')
 
 sns.scatterplot(data=dfEraYear, x='Year',y='Name')
 ax.set(xlim=(1920, 2020), ylabel="",
-       xlabel=None)
+       xlabel=None, xticks=[1920, 1924, 1928, 1932, 1936, 1940, 1944, 1948, 1952, 1956, 1960, 1964, 1968, 1972, 1976, 1980, 1984, 1988, 1992, 1996, 2000, 2004, 2008, 2012, 2016, 2020])
 sns.despine(left=True, bottom=True)
 
-st.write("Titulo grafico")
+st.write("Períodos de medalhas de ouro dos melhores atletas ao longo das Olimpíadas de Verão")
 st.pyplot(plt.gcf())
 st.caption("Fonte: dados retirados em https://www.sports-reference.com/")
 ploting_state.text("Plotando os gráficos...")
@@ -343,7 +347,7 @@ ax.set(xlim=(0, 35), ylabel="",
 sns.despine(left=True, bottom=True)
 
 st.subheader("Jogos Olímpicos de Inverno")
-st.write("Titulo grafico")
+st.write("Os maiores medalhistas nas Olimpíadas de Inverno")
 st.pyplot(plt.gcf())
 st.caption("Fonte: dados retirados em https://www.sports-reference.com/")
 
@@ -353,7 +357,7 @@ loading_bar.progress(50)
 sns.set_theme(style="darkgrid")
 
 # Initialize the matplotlib figure
-f, ax = plt.subplots(figsize=(5, 8))
+f, ax = plt.subplots(figsize=(15, 8))
 
 dfEraYear = dfOlInverno.drop_duplicates(['Name','Year','Medal'])[['Name','Year','Medal']]
 dfEraYear = dfEraYear.loc[dfEraYear['Medal'] == 'Gold']
@@ -366,10 +370,10 @@ dfEraYear.sort_values('Name')
 
 sns.scatterplot(data=dfEraYear, x='Year',y='Name')
 ax.set(xlim=(1920, 2020), ylabel="",
-       xlabel=None)
+       xlabel=None, xticks=[1920, 1924, 1928, 1932, 1936, 1940, 1944, 1948, 1952, 1956, 1960, 1964, 1968, 1972, 1976, 1980, 1984, 1988, 1992, 1996, 2000, 2004, 2008, 2012, 2016, 2020])
 sns.despine(left=True, bottom=True)
 
-st.write("Titulo grafico")
+st.write("Períodos de medalhas de ouro dos melhores atletas ao longo das Olimpíadas de Inverno")
 st.pyplot(plt.gcf())
 st.caption("Fonte: dados retirados em https://www.sports-reference.com/")
 
