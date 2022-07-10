@@ -109,12 +109,15 @@ fig1 = px.choropleth_mapbox(
     hover_name = "NOC",
     hover_data = ["Total"],
     center={"lat" : 0, "lon" : 0},
-    zoom=0,
+    zoom=-0.2,
     opacity=0.8,
     animation_frame = "Year", #creating the application based on the year
     title = "Quantidade de medalhas por país ao longo da história das Olimpíadas de Verão", 
 
 )
+
+fig1.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+fig1.update_geos(fitbounds = "locations", visible = False)
 st.plotly_chart(fig1)
 
 loading_bar.progress(35)
@@ -424,6 +427,7 @@ fig.layout.updatemenus[0].buttons[0].args[1]['frame']['duration'] = 1000
 st.header("Explorando a quantidade de medalhas por renda per capita")
 st.subheader("Jogos Olímpicos de Verão")
 st.write("Quantidade de medalhas x Renda per capita - Jogos Olímpicos de Verão")
+fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
 st.plotly_chart(fig)
 st.caption("Fonte: dados retirados em https://www.sports-reference.com/")
 
@@ -553,6 +557,7 @@ fig = px.scatter(
 fig.layout.updatemenus[0].buttons[0].args[1]['frame']['duration'] = 1000
 st.subheader("Jogos Olímpicos de Inverno")
 st.write("Quantidade de medalhas x Renda per capita - Jogos Olímpicos de Iverno")
+fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
 st.plotly_chart(fig)
 st.caption("Fonte: dados retirados em https://www.sports-reference.com/")
 
