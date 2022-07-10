@@ -12,6 +12,7 @@ from urllib.request import urlopen
 st.set_page_config(page_title="TP - Visualização de Dados", page_icon="🥇", layout="centered", initial_sidebar_state="auto", menu_items=None)
 
 loading_bar = st.progress(0)
+ploting_state = st.text("Fazendo chamadas ao servidor...")
 warning = st.warning("Por favor, espere os dados carregarem corretamente")
 
 st.title("Histórias das Olimpíadas")
@@ -33,7 +34,9 @@ loading_bar.progress(5)
 
 # Leitura dos Dados
 ft_Competicao = pd.read_csv("https://raw.githubusercontent.com/GuiMendeees/Dados/main/TP%20Data%20Viz/athlete_events.csv")
+ploting_state.text("Carregando a aplicação...")
 loading_bar.progress(7)
+ploting_state.text("Baixando os dados...")
 dim_paises = pd.read_csv('https://raw.githubusercontent.com/GuiMendeees/Dados/main/TP%20Data%20Viz/noc_regions.csv')
 
 loading_bar.progress(10)
@@ -54,6 +57,7 @@ ft_Competicao['Medal'] = ft_Competicao['Medal'].fillna('-')
 
 loading_bar.progress(28)
 
+ploting_state.text("Carregando os dados geográficos...")
 with urlopen("https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json") as response:
     Countries = json.load(response) # Javascrip object notation 
 loading_bar.progress(30)
@@ -99,6 +103,7 @@ TotalPaisAnoVerao['Total'] = TotalPaisAnoVerao['QtdOuro'] + TotalPaisAnoVerao['Q
 df = TotalPaisAnoVerao
 df = df.sort_values(by=["Year"])
 
+ploting_state.text("Plotando os mapas...")
 fig1 = px.choropleth_mapbox(
     df,
     locations = "NOC",
@@ -213,6 +218,7 @@ sns.despine(left=True, bottom=True)
 st.write("Titulo grafico")
 st.pyplot(plt.gcf())
 st.caption("Fonte: dados retirados em https://www.sports-reference.com/")
+ploting_state.text("Plotando os gráficos...")
 
 #Quais os atletas que marcaram eras (Guilherme) - Inverno
 dfOlInverno = ft_Competicao.loc[ft_Competicao['Season'] == 'Winter']
@@ -424,6 +430,7 @@ fig = px.scatter(
 
 fig.layout.updatemenus[0].buttons[0].args[1]['frame']['duration'] = 1000
 
+ploting_state.text("Quase terminando...")
 st.header("Explorando a quantidade de medalhas por renda per capita")
 st.subheader("Jogos Olímpicos de Verão")
 st.write("Quantidade de medalhas x Renda per capita - Jogos Olímpicos de Verão")
@@ -799,6 +806,7 @@ st.pyplot(plt.gcf())
 st.caption("Fonte: dados retirados em https://www.sports-reference.com/")
 
 loading_bar.progress(90)
+ploting_state.empty()
 loading_bar.progress(100)
 warning.success("Tudo certo!")
 
