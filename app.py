@@ -27,7 +27,7 @@ st.subheader("Uma análise quantitativa dos Jogos Olímpicos de Verão e Inverno
 
 st.text("")
 st.text(
-"""
+    """
 Daniel Silva - 2018046670
 Eduardo Fiuza - 2018046580
 Guilherme Mendes - 2018046939
@@ -1066,12 +1066,16 @@ st.caption("Fonte: dados retirados em https://www.sports-reference.com/")
 st.header("A corrida pelas medalhas")
 st.subheader("Jogos Olímpicos de Verão")
 
-st.image("/home/vitor-mafra/Desktop/ufmg/2022_01/dataviz/streamlit_dataviz/Peek 2022-07-10 21-06.gif")
+st.image(
+    "/home/vitor-mafra/Desktop/ufmg/2022_01/dataviz/streamlit_dataviz/Peek 2022-07-10 21-06.gif"
+)
 
 loading_bar.progress(80)
 st.subheader("Jogos Olímpicos de Inverno")
 
-st.image("/home/vitor-mafra/Desktop/ufmg/2022_01/dataviz/streamlit_dataviz/Peek 2022-07-10 21-08.gif")
+st.image(
+    "/home/vitor-mafra/Desktop/ufmg/2022_01/dataviz/streamlit_dataviz/Peek 2022-07-10 21-08.gif"
+)
 
 loading_bar.progress(90)
 ploting_state.empty()
