@@ -251,7 +251,7 @@ st.plotly_chart(fig2)
 
 st.header("Perfil dos atletas medalhistas")
 st.image(
-    "/home/vitor-mafra/Desktop/ufmg/2022_01/dataviz/streamlit_dataviz/Visualização de Dados - Apresentação Final.png"
+    "Visualização de Dados - Apresentação Final.png"
 )
 
 
@@ -1067,14 +1067,14 @@ st.header("A corrida pelas medalhas")
 st.subheader("Jogos Olímpicos de Verão")
 
 st.image(
-    "/home/vitor-mafra/Desktop/ufmg/2022_01/dataviz/streamlit_dataviz/Peek 2022-07-10 21-06.gif"
+    "Peek 2022-07-10 21-06.gif"
 )
 
 loading_bar.progress(80)
 st.subheader("Jogos Olímpicos de Inverno")
 
 st.image(
-    "/home/vitor-mafra/Desktop/ufmg/2022_01/dataviz/streamlit_dataviz/Peek 2022-07-10 21-08.gif"
+    "Peek 2022-07-10 21-08.gif"
 )
 
 loading_bar.progress(90)
